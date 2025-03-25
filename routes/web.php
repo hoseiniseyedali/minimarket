@@ -31,9 +31,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     ]);
 });
 
-
+// Cart Routes
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-Route::post('/cart/products', [CartController::class, 'addProduct'])->name('cart.add');
-Route::put('/cart/products', [CartController::class, 'updateProductQuantity'])->name('cart.update');
-Route::delete('/cart/products', [CartController::class, 'removeProduct'])->name('cart.remove');
+Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.add');
+Route::put('/cart/update/{product}', [CartController::class, 'update'])->name('cart.update');
+Route::delete('/cart/remove/{product}', [CartController::class, 'remove'])->name('cart.remove');
+Route::post('/cart/clear', [CartController::class, 'clear'])->name('cart.clear');
 
