@@ -7,24 +7,7 @@
     @vite('resources/css/app.css')
 </head>
 <body class="bg-gray-100">
-    <!-- Navigation Bar -->
-    <nav class="bg-white shadow-lg">
-        <div class="max-w-7xl mx-auto px-4">
-            <div class="flex justify-between items-center h-16">
-                <div class="flex items-center">
-                    <a href="/" class="text-2xl font-bold text-blue-600">MiniMarket</a>
-                </div>
-                <div class="hidden md:flex items-center space-x-8">
-                    <a href="/admin/dashboard" class="text-gray-700 hover:text-blue-600">Dashboard</a>
-                    <a href="/admin/profile" class="text-gray-700 hover:text-blue-600">Profile</a>
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <button type="submit" class="text-gray-700 hover:text-blue-600">Logout</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </nav>
+    @include('components.admin.navbar')
 
     <!-- Profile Content -->
     <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
