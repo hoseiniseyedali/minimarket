@@ -10,6 +10,7 @@ class MainController extends Controller
     public function home()
     {
         $products = Product::latest()->paginate(12);
-        return view('home', compact('products'));
+        $cartCount = array_sum(session('cart', []));
+        return view('home', compact('products', 'cartCount'));
     }
 }
