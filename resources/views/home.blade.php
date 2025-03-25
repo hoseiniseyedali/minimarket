@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MiniMarket - Your One-Stop Shop</title>
     @vite('resources/css/app.css')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body class="bg-gray-100">
     <!-- Navigation Bar -->
@@ -21,19 +22,37 @@
                     <a href="/contact" class="text-gray-700 hover:text-blue-600">Contact</a>
                 </div>
                 <div class="flex items-center space-x-4">
-                    <button class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">Sign In</button>
-                    <button class="border border-blue-600 text-blue-600 px-4 py-2 rounded-md hover:bg-blue-50">Sign Up</button>
+                    @auth
+                        @if(auth()->user()->isAdmin())
+                            <a href="{{ route('admin.dashboard') }}" class="btn btn-primary">
+                                <button class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">Admin Dashboard</button>                        
+                            </a>
+                        @else
+                            <a href="{{ route('home') }}" class="btn btn-primary">
+                                <button class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">Dashboard</button>                        
+                            </a>
+                        @endif
+                        <form id="logoutForm" action="{{ route('logout') }}" method="POST" class="inline">
+                            @csrf
+                            <button type="button" onclick="confirmLogout()" class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 ml-2">Logout</button>
+                        </form>
+                    @else
+                        <a href="{{ route('login') }}" class="btn btn-primary">
+                            <button class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">Sign In</button>                        
+                        </a>
+                    @endauth
+                    {{-- <button class="border border-blue-600 text-blue-600 px-4 py-2 rounded-md hover:bg-blue-50">Sign Up</button> --}}
                 </div>
             </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <div class="bg-blue-600 text-white py-20">
+    <div class="bg-green-600 text-white py-20">
         <div class="max-w-7xl mx-auto px-4 text-center">
             <h1 class="text-4xl md:text-6xl font-bold mb-4">Welcome to MiniMarket</h1>
             <p class="text-xl mb-8">Your one-stop shop for all your daily needs</p>
-            <button class="bg-white text-blue-600 px-8 py-3 rounded-md text-lg font-semibold hover:bg-blue-50">
+            <button class="bg-white text-green-600 px-8 py-3 rounded-md text-lg font-semibold hover:bg-green-50">
                 Shop Now
             </button>
         </div>
@@ -50,16 +69,21 @@
                         <h3 class="text-xl font-semibold mb-2">{{ $product->name }}</h3>
                         <p class="text-gray-600 mb-4">{{ Str::limit($product->description, 100) }}</p>
                         <div class="flex justify-between items-center">
-                            <span class="text-2xl font-bold text-blue-600">${{ number_format($product->price, 2) }}</span>
+                            <span class="text-2xl font-bold text-green-600">${{ number_format($product->price, 2) }}</span>
                             <span class="badge {{ $product->status === 'active' ? 'bg-success' : 'bg-danger' }}">
                                 {{ ucfirst($product->status) }}
                             </span>
                         </div>
                         <div class="mt-2">
-                            <small class="text-muted">Stock: {{ $product->stock }}</small>
+                            {{-- <small class="text-muted">Stock: {{ $product->stock }}</small> --}}
                         </div>
                         <div class="mt-3">
                             {{-- <a href="{{ route('products.show', $product) }}" class="btn btn-primary">View Details</a> --}}
+                            <div class="flex items-center justify-between">
+                                <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                                    add to cart
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -126,5 +150,23 @@
             </div>
         </div>
     </footer>
+    <script>
+        function confirmLogout() {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You will be logged out of your account!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, logout!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('logoutForm').submit();
+                }
+            });
+        }
+    </script>
 </body>
 </html>
