@@ -76,9 +76,19 @@
                             Clear Cart
                         </button>
                     </form>
-                    <a href="{{ route('home') }}" class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700">
-                        order now
-                    </a>
+                    
+                    @auth
+                        <form action="{{ route('orders.create') }}" method="POST" class="inline">
+                            @csrf
+                            <button type="submit" class="bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-700">
+                                Place Order
+                            </button>
+                        </form>
+                    @else
+                        <a href="{{ route('login') }}" class="bg-indigo-600 text-white px-6 py-2 rounded-md hover:bg-indigo-700">
+                            Login to Order
+                        </a>
+                    @endauth
                 </div>
             </div>
         </div>

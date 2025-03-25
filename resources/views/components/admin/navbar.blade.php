@@ -9,6 +9,7 @@
                 <a href="/admin/dashboard" class="text-gray-700 hover:text-blue-600 {{ request()->is('admin/dashboard') ? 'text-blue-600' : '' }}">Dashboard</a>
                 <a href="/admin/products" class="text-gray-700 hover:text-blue-600 {{ request()->is('admin/products*') ? 'text-blue-600' : '' }}">Products</a>
                 <a href="/admin/profile" class="text-gray-700 hover:text-blue-600 {{ request()->is('admin/profile') ? 'text-blue-600' : '' }}">Profile</a>
+                <a href="/admin/orders" class="text-gray-700 hover:text-blue-600 {{ request()->is('admin/orders') ? 'text-blue-600' : '' }}">Orders</a>
                 <form method="POST" action="{{ route('logout') }}" id="logoutForm">
                     @csrf
                     <button type="button" onclick="confirmLogout()" class="text-white bg-red-600 px-4 py-2 rounded-md hover:text-red-700">Logout</button>

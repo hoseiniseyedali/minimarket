@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\OrderController;
 
 Route::get('/', [MainController::class, 'home'])->name('home');
 
@@ -29,6 +30,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
         'update' => 'admin.products.update',
         'destroy' => 'admin.products.destroy',
     ]);
+
+    // Order Management Routes
+    Route::get('/orders', [OrderController::class, 'index'])->name('admin.orders.index');
 });
 
 // Cart Routes
@@ -37,4 +41,9 @@ Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.a
 Route::put('/cart/update/{product}', [CartController::class, 'update'])->name('cart.update');
 Route::delete('/cart/remove/{product}', [CartController::class, 'remove'])->name('cart.remove');
 Route::post('/cart/clear', [CartController::class, 'clear'])->name('cart.clear');
+
+// Order Routes
+Route::middleware(['auth'])->group(function () {
+    Route::post('/orders', [OrderController::class, 'create'])->name('orders.create');
+});
 
